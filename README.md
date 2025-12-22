@@ -11,6 +11,7 @@ This project is my answers for Stanford CS336 Assignment.
 
 #### test 
 - implement the test adapter at [adapters.run_train_bpe], and then test using:
+```bash
 uv run pytest tests/test_train_bpe.py
 
 ### Implementing the tokenizer
@@ -20,5 +21,6 @@ uv run pytest tests/test_train_bpe.py
 
 #### test 
 - implement the test adapter at [cs336_basics.tokenizer], and then test using:
+```bash
 uv run pytest tests/test_tokenizer.py
 
