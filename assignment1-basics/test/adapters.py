@@ -12,7 +12,6 @@ from torch import Tensor
 import regex as re
 
 
-
 def run_linear(
     d_in: int,
     d_out: int,
@@ -31,9 +30,16 @@ def run_linear(
     Returns:
         Float[Tensor, "... d_out"]: The transformed output of your linear module.
     """
-
-    raise NotImplementedError
-
+    from cs336_basics.model.modules import Linear
+    linear = Linear(in_features=d_in, out_features=d_out, device=in_features.device, dtype=in_features.dtype)
+    if weights is not None:
+        weights_state = {'weight':weights.to(device=in_features.device, dtype=in_features.dtype)}
+        linear._load_from_state_dict(weights_state)
+    linear.eval()
+    with torch.no_grad():
+        out_features = linear(in_features)
+    
+    return out_features
 
 def run_embedding(
     vocab_size: int,
@@ -53,8 +59,15 @@ def run_embedding(
     Returns:
         Float[Tensor, "... d_model"]: Batch of embeddings returned by your Embedding layer.
     """
-
-    raise NotImplementedError
+    from cs336_basics.model.modules import Embedding
+    embedding_layer = Embedding(vocab_size,d_model)
+    if weights is not None:
+        weight_state = {'weight':weights.to(device=token_ids.device)}
+        embedding_layer.load_state_dict(weight_state)
+    embedding_layer.eval()
+    with torch.no_grad():
+        embedings = self.embedding_layer(token_ids)
+    return embeddings
 
 
 def run_swiglu(
@@ -381,7 +394,13 @@ def run_rmsnorm(
         Float[Tensor,"... d_model"]: Tensor of with the same shape as `in_features` with the output of running
         RMSNorm of the `in_features`.
     """
-    raise NotImplementedError
+    from cs336_basics.model.modules import RMSNorm
+    rmsnorm_layer = RMSNorm(d_model,eps,device=in_features.device,dtype=in_features.dtype)
+    if weights is not None:
+        weight_state = {'g_weight':weights.to(device=in_features.device,dtype=in_features.dtype)}
+        rmsnorm_layer.load_state_dict(weight_state)
+    rmsnorm_out = rmsnorm_layer(in_features)
+    return rmsnorm_out
 
 
 def run_silu(in_features: Float[Tensor, " ..."]) -> Float[Tensor, " ..."]:

@@ -25,3 +25,29 @@ uv run pytest tests/test_train_bpe.py
 ```bash
 uv run pytest tests/test_tokenizer.py
 ```
+
+### Implementing the linear module
+- Linear weights: truncated at [−3σ, 3σ]
+- implement the test adapter at [adapters.run_linear], and then test using:
+```bash
+uv run pytest -k test_linear
+```
+
+### Implementing the embedding module
+- inherits from nn.Module
+- embedding lookup, embedding matrix shape (vocab_size, d_model) using torch.LongTensor
+- embedding weights: truncated at [−3, 3]
+- implement the test adapter at [adapters.test_embedding], and then test using:
+```bash
+uv run pytest -k test_embedding
+```
+
+### Implementing the Root Mean Square Layer Normalization(RMSNorm)
+- inherits from nn.Module
+- using float32 during forwards function to avoid Numerical Overflow or Underflow
+- rms_a (batch_size, sequence_length, 1) g_weight (d_model,) 
+- x / rms_a * g_weight
+- implement the test adapter at [adapters.test_rmsnorm], and then test using:
+```bash
+uv run pytest -k test_rmsnorm
+```
