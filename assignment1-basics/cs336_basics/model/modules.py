@@ -74,3 +74,39 @@ class RMSNorm(nn.Module):
     
     def _init_weight(self):
         nn.init.normal_(self.g_weight, std=1)
+
+class SwiGLU(nn.Module):
+    def __init__(self, d_model: int, d_ff: int, device=None, dtype=None):
+        super().__init__()
+        if dtype is None or not torch.is_floating_point(torch.empty((),dtype=dtype)):
+            dtype = torch.float32
+        self.d_model = d_model
+        self.d_ff = d_ff
+        self.device = device
+        self.dtype = dtype
+        # self.w1 = nn.Parameter(torch.empty(d_ff,d_model,device = device, dtype = dtype))
+        # self.w2 = nn.Parameter(torch.empty(d_model,d_ff,device = device, dtype = dtype))
+        # self.w3 = nn.Parameter(torch.empty(d_ff,d_model,device = device, dtype = dtype))
+        self.w1 = Linear(d_model,d_ff,device = device, dtype = dtype)
+        self.w2 = Linear(d_ff,d_model,device = device, dtype = dtype)
+        self.w3 = Linear(d_model,d_ff,device = device, dtype = dtype)
+        self._init_weight()
+    
+    def forward(self,x:torch.Tensor)->torch.Tensor:
+        a = self.w1(x)
+        silu = a * torch.sigmoid(a)
+        b = self.w3(x)
+        c = silu * b
+        d = self.w2(c)
+        return d
+
+
+    def _init_weight(self):
+        std = (2/(self.d_ff + self.d_model)) ** 0.5
+        nn.init.trunc_normal_(self.w1.weight,std = std, a = -3*std, b = 3*std)
+        nn.init.trunc_normal_(self.w2.weight,std = std, a = -3*std, b = 3*std)
+        nn.init.trunc_normal_(self.w3.weight,std = std, a = -3*std, b = 3*std)
+
+
+
+        

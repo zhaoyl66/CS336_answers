@@ -99,7 +99,19 @@ def run_swiglu(
     # swiglu.w1.weight.data = w1_weight
     # swiglu.w2.weight.data = w2_weight
     # swiglu.w3.weight.data = w3_weight
-    raise NotImplementedError
+    from cs336_basics.model.modules import SwiGLU
+    swiglu_layer = SwiGLU(d_model,d_ff,device=in_features.device, dtype=in_features.dtype)
+    state_dict = {
+        'w1.weight': w1_weight.to(device=in_features.device),
+        'w2.weight': w2_weight.to(device=in_features.device),
+        'w3.weight': w3_weight.to(device=in_features.device),
+    }
+    swiglu_layer.load_state_dict(state_dict)
+    swiglu_layer.eval()
+    with torch.no_grad():
+        swiglu = swiglu_layer(in_features)
+    return swiglu        
+    
 
 
 def run_scaled_dot_product_attention(
