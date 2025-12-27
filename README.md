@@ -59,7 +59,6 @@ uv run pytest -k test_rmsnorm
 - $$\text{FFN}(x) = \left[ \text{SiLU}(xW_1) \odot (xW_3) \right] W_2$$
 - $$\text{SiLU}(x) = x \cdot \sigma(x)$$
 - $$\sigma(x) = \frac{1}{1 + e^{-x}}$$
-```
 - canonically, d_ff = 8/3 * d_model
 - implement the test adapter at [adapters.run_swiglu], and then test using:
 ```bash
