@@ -55,7 +55,8 @@ uv run pytest -k test_rmsnorm
 
 ### Implementing t the position-wise feed-forward network (SwiGLU)
 - SwiGLU composed of a SiLU activation function and a GLU.
-```$\text{SwiGLU}(x) = \text{SiLU}(W_1x) \odot (W_2x)$
+```latex
+$\text{SwiGLU}(x) = \text{SiLU}(W_1x) \odot (W_2x)$
 $\text{FFN}(x) = \left[ \text{SiLU}(W_1x) \odot (W_3x) \right] W_2$
 $\text{SiLU}(x) = x \cdot \sigma(x)
 ```
