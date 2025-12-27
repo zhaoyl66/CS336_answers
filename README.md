@@ -21,7 +21,7 @@ uv run pytest tests/test_train_bpe.py
 - Do not ignore edge cases—always handle inputs like empty strings explicitly to ensure basic functionality passes tests.
 
 #### test 
-- implement the test adapter at [cs336_basics.tokenizer], and then test using:
+- implement the test adapter at [adapters.get_tokenizer], and then test using:
 ```bash
 uv run pytest tests/test_tokenizer.py
 ```
@@ -37,7 +37,7 @@ uv run pytest -k test_linear
 - inherits from nn.Module
 - embedding lookup, embedding matrix shape (vocab_size, d_model) using torch.LongTensor
 - embedding weights: truncated at [−3, 3]
-- implement the test adapter at [adapters.test_embedding], and then test using:
+- implement the test adapter at [adapters.run_embedding], and then test using:
 ```bash
 uv run pytest -k test_embedding
 ```
@@ -47,7 +47,20 @@ uv run pytest -k test_embedding
 - using float32 during forwards function to avoid Numerical Overflow or Underflow
 - rms_a (batch_size, sequence_length, 1) g_weight (d_model,) 
 - x / rms_a * g_weight
-- implement the test adapter at [adapters.test_rmsnorm], and then test using:
+- implement the test adapter at [adapters.run_rmsnorm], and then test using:
 ```bash
 uv run pytest -k test_rmsnorm
+```
+
+
+### Implementing t the position-wise feed-forward network (SwiGLU)
+- omposed of a SiLU activation function and a GLU.
+$\text{SwiGLU}(x) = \text{SiLU}(W_1x) \odot (W_2x)$
+$\text{FFN}(x) = \left[ \text{SiLU}(W_1x) \odot (W_3x) \right] W_2$
+$\text{SiLU}(x) = x \cdot \sigma(x)
+\sigma(x) = \frac{1}{1 + e^{-x}}$
+- canonically, d_ff = 8/3 * d_model
+- implement the test adapter at [adapters.run_swiglu], and then test using:
+```bash
+uv run pytest -k test_swiglu
 ```
