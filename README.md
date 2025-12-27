@@ -55,16 +55,10 @@ uv run pytest -k test_rmsnorm
 
 ### Implementing t the position-wise feed-forward network (SwiGLU)
 - SwiGLU composed of a SiLU activation function and a GLU.
-- $$\lim_{x \to 0} \frac{\sin x}{x} = 1, \quad \lim_{n \to \infty} \left(1 + \frac{1}{n}\right)^n = e$$
-```latex
-$$
-\begin{aligned}
-\text{SwiGLU}(x) &= \text{SiLU}(xW_1) \odot (xW_2) \\
-\text{FFN}(x) &= \left[ \text{SiLU}(xW_1) \odot (xW_3) \right] W_2 \\
-\text{SiLU}(x) &= x \odot \sigma(x) \\
-\sigma(x) &= \frac{1}{1 + e^{-x}}
-\end{aligned}
-$$
+$$\text{SwiGLU}(x) = \text{SiLU}(xW_1) \odot (xW_2)$$
+$$\text{FFN}(x) = \left[ \text{SiLU}(xW_1) \odot (xW_3) \right] W_2$$
+$$\text{SiLU}(x) = x \cdot \sigma(x)$$
+$$\sigma(x) = \frac{1}{1 + e^{-x}}$$
 ```
 - canonically, d_ff = 8/3 * d_model
 - implement the test adapter at [adapters.run_swiglu], and then test using:
