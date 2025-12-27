@@ -55,6 +55,7 @@ uv run pytest -k test_rmsnorm
 
 ### Implementing t the position-wise feed-forward network (SwiGLU)
 - SwiGLU composed of a SiLU activation function and a GLU.
+- $$\lim_{x \to 0} \frac{\sin x}{x} = 1, \quad \lim_{n \to \infty} \left(1 + \frac{1}{n}\right)^n = e$$
 ```latex
 $$
 \begin{aligned}
