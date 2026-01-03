@@ -1,6 +1,7 @@
 # Stanford CS336 Assignment Solutions
 This project is my answers for Stanford CS336 Assignment.
-## Assignment 1 
+## Assignment 1 Chapter 1
+
 ### Implementing the BPE training
 
 #### Pre-tokenization
@@ -25,6 +26,7 @@ uv run pytest tests/test_train_bpe.py
 ```bash
 uv run pytest tests/test_tokenizer.py
 ```
+## Assignment 1 Chapter 2
 
 ### Implementing the linear module
 - Linear weights: truncated at [−3σ, 3σ]
@@ -53,7 +55,7 @@ uv run pytest -k test_rmsnorm
 ```
 
 
-### Implementing t the position-wise feed-forward network (SwiGLU)
+### Implementing the position-wise feed-forward network (SwiGLU)
 - SwiGLU composed of a SiLU activation function and a GLU.
 - $$\text{SwiGLU}(x) = \text{SiLU}(xW_1) \odot (xW_3)$$
 - $$\text{FFN}(x) = \left[ \text{SiLU}(xW_1) \odot (xW_3) \right] W_2$$
@@ -64,3 +66,32 @@ uv run pytest -k test_rmsnorm
 ```bash
 uv run pytest -k test_swiglu
 ```
+
+### Implementing the Rotary Position Embedding (RoPE)
+- use rotary matrix encode position info to Q and K $$ \mathbf{x}_m' = \mathbf{R}_{\Theta,m} \mathbf{x}_m $$
+- make attn score only relys on relative position (m-n) $$\langle \mathbf{q}_m', \mathbf{k}_n' \rangle = f(\mathbf{q}, \mathbf{k}, m-n)$$
+- implement the test adapter at [adapters.run_rope], and then test using:
+```bash
+uv run pytest -k test_rope
+```
+
+### Implementing the softmax
+- Subtract max for numerical stability
+-  Temperature parameter τ (default=1.0)
+-  τ < 1: sharper distribution (amplify differences)
+- τ > 1: smoother distribution (reduce differences)
+- implement the test adapter at [adapters.run_softmax], and then test using:
+```bash
+uv run pytest -k test_softmax
+```
+
+### Implementing the scaled dot-product attention
+- Compute QK^T
+- Scale by sqrt(d_k)
+- Apply softmax to get attention weights
+- Multiply by V
+- implement the test adapter at [adapters.run_scaled_dot_product_attention], and then test using:
+```bash
+uv run pytest -k test_scaled_dot_product_attention
+```
+
