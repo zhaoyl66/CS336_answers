@@ -1,5 +1,24 @@
 # Stanford CS336 Assignment Solutions
+
 This project is my answers for Stanford CS336 Assignment.
+
+## Table of Contents
+
+### [Assignment 1 Chapter 1 Byte-Pair Encoding (BPE) Tokenizer](#assignment-1-chapter-1)
+- [Implementing the BPE training](#implementing-the-bpe-training)
+- [Implementing the tokenizer](#implementing-the-tokenizer)
+
+### [Assignment 1 Chapter 2 Transformer Language Model Architecture](#assignment-1-chapter-2)
+- [Implementing the linear module](#implementing-the-linear-module)
+- [Implementing the embedding module](#implementing-the-embedding-module)
+- [Implementing the Root Mean Square Layer Normalization (RMSNorm)](#implementing-the-root-mean-square-layer-normalizationrmsnorm)
+- [Implementing the position-wise feed-forward network (SwiGLU)](#implementing-the-position-wise-feed-forward-network-swiglu)
+- [Implementing the Rotary Position Embedding (RoPE)](#implementing-the-rotary-position-embedding-rope)
+- [Implementing the softmax](#implementing-the-softmax)
+- [Implementing the scaled dot-product attention](#implementing-the-scaled-dot-product-attention)
+
+---
+
 ## Assignment 1 Chapter 1
 
 ### Implementing the BPE training
