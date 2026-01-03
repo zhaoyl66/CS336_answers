@@ -69,8 +69,8 @@ uv run pytest -k test_swiglu
 
 ### Implementing the Rotary Position Embedding (RoPE)
 - use rotary matrix encode position info to Q and K 
-- $$ \mathbf{x}_m' = \mathbf{R}_{\Theta,m} \mathbf{x}_m $$
-- make attn score only relys on relative position (m-n) $$\langle \mathbf{q}_m', \mathbf{k}_n' \rangle = f(\mathbf{q}, \mathbf{k}, m-n)$$
+- $$\text{x}_m' = \text{R}_{\Theta,m} \text{x}_m$$
+- make attn score only relys on relative position (m-n) $$\langle \text{q}_m', \text{k}_n' \rangle = f(\text{q}, \text{k}, m-n)$$
 - implement the test adapter at [adapters.run_rope], and then test using:
 ```bash
 uv run pytest -k test_rope
